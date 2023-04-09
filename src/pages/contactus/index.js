@@ -1,50 +1,33 @@
-import { useState } from "react";
+import React from 'react'
+import { useRouter } from 'next/router'
 
-function Users() {
-    
-    const users = [
-        {id:1,name:'zain',designation:'software engineer'},
-        {id:2,name:'faraz',designation:'software engineer'},
-        {id:3,name:'arsalan',designation:'lecturer'},
-    ]
+const ContactUs = () => {
 
-    const [details,setDetails]=useState({})
-    const [isModalOpen,setIsModalOpen]=useState(false)
-
-    const openDetails = (data)=>{
-        setIsModalOpen(!isModalOpen)
-        setDetails(data)
+    const navigate = useRouter();
+    const viewNavigation = (newRoute)=>{
+        try {
+            console.log(newRoute)
+        if (!document.startViewTransition) {
+             navigate.push(newRoute);
+        }else {
+            return document.startViewTransition(() => {
+                navigate.push(newRoute);
+             });
+        } 
+        } catch (error) {
+            console.log(error)
+            
+        }
+       
     }
 
-    return (  
-        <div className="App">
-           {isModalOpen &&  <div>
-                <p>{details.name}</p>
-                <p>{details.designation}</p>
-            </div>}
-            <table>
-                <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>NAME</td>
-                        <td>DESIGNATION</td>
-                    </tr>
-                </thead>
-                <tbody>
-                {users.map((item,index)=>{
-                    return(
-                         <tr>
-                            <td>{item.id}</td>
-                            <td>{item.name}</td>
-                            <td>{item.designation}</td>
-                            <td><button onClick={()=>openDetails(item)}>Details</button></td>
-                        </tr>
-                    )
-                })}
-                </tbody>
-            </table>
+
+return (
+        <div> 
+            <h2>Contact</h2>
+           <button onClick={()=>viewNavigation('home')}>Home</button>
         </div>
-    );
+    )
 }
 
-export default Users;
+export default ContactUs;
